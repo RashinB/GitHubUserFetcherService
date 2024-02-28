@@ -10,13 +10,13 @@ To get started with this service, follow these steps:
 1. Clone the repository to your local machine:
 
     ```bash
-    git clone https://github.com/rashinb/github-user-fetcher-service.git
+    git clone https://github.com/RashinB/GitHubUserFetcherService.git
     ```
 
 2. Navigate to the project directory:
 
     ```bash
-    cd github-user-fetcher-service
+    cd GitHubUserFetcherService
     ```
 
 3. Build the project using Maven:
