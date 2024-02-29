@@ -44,8 +44,11 @@ public class UserController {
     }
 
     // Exception handler for other exceptions
-    @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleException(Exception ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
+        String errorMessage = "An unexpected error occurred";
+        if (ex != null && ex.getMessage() != null) {
+            errorMessage += ": " + ex.getMessage();
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
     }
 }

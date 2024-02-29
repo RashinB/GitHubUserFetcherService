@@ -101,7 +101,7 @@ public class UserControllerTest {
     @Test
     public void testHandleException() {
         // Mock Exception
-        Exception exception = new Exception("Test Exception");
+        Exception exception = new Exception("Test exception message");
 
         // Call exception handler method
         ResponseEntity<Object> response = userController.handleException(exception);
@@ -109,6 +109,9 @@ public class UserControllerTest {
         // Check response
         assertNotNull(response);
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-        assertEquals("An unexpected error occurred", response.getBody());
+
+        // Verify that the response body contains the expected error message
+        String expectedErrorMessage = "An unexpected error occurred: Test exception message";
+        assertEquals(expectedErrorMessage, response.getBody());
     }
 }
