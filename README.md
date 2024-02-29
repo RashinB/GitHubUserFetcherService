@@ -1,41 +1,74 @@
 # GitHub User Fetcher Service
 
-This service integrates a subset of GitHub's data into the application. It provides an endpoint that accepts a GitHub
-username and returns the user's data in JSON format, including their repositories.
+## Overview
+The GitHub User Fetcher Service is a Spring Boot application designed to fetch and merge data from the GitHub API for a
+given user. It provides an endpoint that accepts a GitHub username and returns the user's information, including
+repositories, in JSON format.
 
-## Getting Started
+## Architecture
+The service is built using Java and Spring Boot framework. It follows a RESTful architecture pattern, with a controller
+to handle incoming requests, a service layer to interact with the GitHub API, and model classes to represent GitHub user
+and repository data.
+
+## Components:
+- **Controller:** Handles incoming HTTP requests and delegates the processing to the service layer.
+- **Service:** Interacts with the GitHub API to fetch user data and repositories. It also processes and merges the data
+before returning it to the controller.
+- **Model:** Contains classes to represent GitHub user and repository data, with annotations to map JSON properties.
+
+## Decisions
+- **Spring Boot:** Chosen for its ease of setup, dependency injection, and support for building RESTful APIs.
+- **RestTemplate:** Used to make HTTP requests to the GitHub API for fetching user and repository data.
+- **Jackson:** Used for JSON serialization and deserialization of GitHub API responses into Java objects.
+- **JUnit and Mockito:** Employed for writing unit tests to ensure the correctness of service and model classes.
+
+## Installation and Usage
+
+## Prerequisites
+
+- Java 8 or later installed on your machine.
+- Maven installed to build the project.
+
+## Installation Steps
 
 To get started with this service, follow these steps:
 
 1. Clone the repository to your local machine:
 
-    ```bash
+    ```
     git clone https://github.com/RashinB/GitHubUserFetcherService.git
     ```
 
 2. Navigate to the project directory:
 
-    ```bash
+    ```
     cd GitHubUserFetcherService
     ```
 
 3. Build the project using Maven:
 
     ```bash
-    mvn clean package
+    mvn clean install
     ```
 
-4. Run the application:
-- To run the application, build the project and run the main class GithubApiApplication in **IntelliJ IDEA**.
-- Or Run the **JAR** File 
-  - Once the project is built successfully, you can run the generated JAR file using the java -jar command. Replace _github-user-fetcher-service.jar_ with the name of your JAR file:
-      ```bash
-      java -jar target/github-user-fetcher-service.jar
-      ```
+## Running the Service
 
-## Usage
+1. After building the project, navigate to the target directory:
+   ```
+   cd target
+   ```
+2. Once the project is built successfully:
+    - You can run the generated JAR file using the java -jar command.
+       ```bash
+          java -jar target/github-user-fetcher-service.jar
+       ```
+    - **OR** use IntelliJ IDEA To run the application,
+        - build the project and run the main class GithubApiApplication in **IntelliJ IDEA**.
 
-Once the application is running, you can access the endpoint by making a GET request to: http://localhost:8080/user/{username}
+## Using the Service
+
+Once the application is running, you can access the endpoint by making a GET request
+to: http://localhost:8080/user/{username}
 
 Replace `{username}` with the GitHub username you want to retrieve data for.
 
@@ -90,30 +123,8 @@ Here is an example JSON response for the endpoint:
 }
  ```
 
-## Dependencies
+## Conclusion
 
-- Spring Boot
-- Maven
-
-## Contributing
-
-Contributions are welcome! If you'd like to contribute to this project, please fork the repository and submit a pull
-request with your changes.
-
-## Built With
-
-- Java
-- Spring Boot
-- Maven
-
-## Authors
-
-Rashin Bolkameh
-
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
-
-```
-This README includes instructions for both building and running the application with Java, as well as testing it using Postman. Feel free to customize it further to fit your specific needs. If you have any questions or need further assistance, please let me know!
-```
+The GitHub User Fetcher Service provides a simple yet effective way to fetch and merge GitHub user data using the GitHub
+API. It's easily deployable and can be integrated into various applications to enhance their functionality with GitHub
+data.
