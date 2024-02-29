@@ -1,10 +1,14 @@
 package com.example.githubuserfetcherservice.service;
 
+import com.example.githubuserfetcherservice.exception.GithubServiceException;
+import com.example.githubuserfetcherservice.exception.UserNotFoundException;
 import com.example.githubuserfetcherservice.model.GithubData;
 import com.example.githubuserfetcherservice.model.GithubRepo;
 import com.example.githubuserfetcherservice.model.GithubUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
@@ -22,17 +26,31 @@ public class GithubService {
     }
 
     public GithubUser getUserData(String username) {
-        String userUrl = "https://api.github.com/users/" + username;
-        String reposUrl = "https://api.github.com/users/" + username + "/repos";
+        try {
+            String userUrl = "https://api.github.com/users/" + username;
+            String reposUrl = "https://api.github.com/users/" + username + "/repos";
 
-        // Fetch user data
-        GithubData userData = restTemplate.getForObject(userUrl, GithubData.class);
+            // Fetch user data
+            GithubData userData = restTemplate.getForObject(userUrl, GithubData.class);
 
-        // Fetch user repositories
-        GithubRepo[] repos = restTemplate.getForObject(reposUrl, GithubRepo[].class);
+            // Fetch user repositories
+            GithubRepo[] repos = restTemplate.getForObject(reposUrl, GithubRepo[].class);
 
-        // Process data and create GithubUser object
-        return processGithubData(userData, repos);
+            // Process data and create GithubUser object
+            return processGithubData(userData, repos);
+        } catch (HttpClientErrorException e) {
+            if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
+                try {
+                    throw new UserNotFoundException("User not found");
+                } catch (UserNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
+            } else {
+                throw e;
+            }
+        } catch (Exception e) {
+            throw new GithubServiceException("An error occurred while fetching user data", e);
+        }
     }
 
     private GithubUser processGithubData(GithubData userData, GithubRepo[] repos) {
